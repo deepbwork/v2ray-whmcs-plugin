@@ -1,0 +1,193 @@
+* {
+    font-family: 'Helvetica Neue','Hiragino Sans GB','Helvetica Neue','Hiragino Sans GB','Microsoft YaHei','Open Sans',sans-serif;
+}
+#LS {
+    font-size: 12px;
+    color: #666;
+}
+#LS a {
+/*     color: #888; */
+    text-decoration: none;
+}
+#LS a:hover {
+    color: #00afd1;
+    text-decoration: none;
+}
+#LS code {
+    padding: 3px;
+    font-size: 90%;
+    color: #888;
+    background-color: #FFF;
+    border-radius: 5px;
+    border: 1px solid #DDD;
+    margin: 3px;
+}
+#LS pre {
+    padding: 10px;
+    font-size: 90%;
+    color: #888;
+    background-color: #FFF;
+    border-radius: 5px;
+    border: 1px solid #DDD;
+    margin: 10px 0;
+}
+#LS h3, #LS h4 {
+    font-weight: normal;
+}
+#LS .box-sm {
+    width: 100%;
+    padding:20px;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    /*border: 2px solid #F0F0F0;*/
+    border: 1px solid #ddd;
+}
+#LS .box-sm-content {
+    margin: 3px 0 5px 0;
+}
+#LS .box-sm-top {
+    color: #999;
+    font-size: 14px;
+    font-weight: bold;
+}
+#LS .box-sm-bottom {
+    color: #AAA;
+}
+#LS .box-sm-font {
+    color:#666;
+    font-size:30px;
+    font-weight:500;
+    line-height:45px;
+}
+#LS .box-sm-font-sm {
+    color: #999;
+    font-size:16px;
+    font-weight:300;
+}
+#LS .glyphicon-arrow-up {
+    color: yellowgreen;
+}
+#LS .glyphicon-arrow-down {
+    color: orangered;
+}
+#LS .glyphicon-arrow-right {
+    color: #DDD;
+}
+#LS #previous, #LS #next {
+    display: none;
+}
+#LS #other .table td:first-child {
+    border-top: 0;
+    background-color: #FCFCFC;
+    font-weight: bold;
+}
+#LS #home .table td:first-child {
+    border-top: 0;
+}
+#LS .panel-body {
+    padding: 10px;
+}
+#LS .table {
+    color: #999;
+    text-align:center;
+    font-size:12px;
+    margin: 0;
+}
+#LS .table a, a:hover {
+    color: #00afd1;
+    text-decoration: none;
+}
+#LS .table th {
+    background-color:#FCFCFC;
+    text-align:center;
+    font-weight:600;
+    font-size:10px;
+}
+#LS .table > thead > tr > th {
+    border-bottom:1px solid #EAEAEA;
+    font-weight: bold;
+}
+#LS .table > tbody > tr > td {
+    padding:12px;
+    border-left:1px solid #EAEAEA;
+    border-top:1px solid #EAEAEA;
+    vertical-align: middle;
+}
+#LS .table td:first-child {
+    border-left:0;
+    border-left:0;
+}
+#LS .list-group-item {
+    padding: 10px;
+}
+#LS a.list-group-item .list-group-item-heading {
+    color: #888;
+    font-size: 14px;
+    font-weight: normal;
+}
+#LS .list-group-item-text {
+    color: #999;
+    font-size: 12px;
+}
+#LS .label, .btn-xs {
+    font-family: 'Helvetica Neue','Hiragino Sans GB','Helvetica Neue','Hiragino Sans GB','Microsoft YaHei','Open Sans',sans-serif !important;
+    font-weight: bold !important;
+    padding: 3px 8px !important;
+    border-radius: 3px;
+    font-size: 10px !important;
+}
+#LS .panel-heading > .badge {
+    float: right;
+}
+#LS ul, li {
+    list-style: none;
+}
+@media (max-width: 1200px) {
+    .legend-responsive {
+        width: 100%;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        -webkit-overflow-scrolling: touch;
+    }
+    .legend-responsive > .table {
+        margin-bottom: 0;
+        border-bottom: 1px solid #EAEAEA;
+    }
+    .legend-responsive > .table > thead > tr > th,
+    .legend-responsive > .table > tbody > tr > th,
+    .legend-responsive > .table > tfoot > tr > th,
+    .legend-responsive > .table > thead > tr > td,
+    .legend-responsive > .table > tbody > tr > td,
+    .legend-responsive > .table > tfoot > tr > td {
+        white-space: nowrap;
+    }
+
+    .legend-responsive > .col-md-6 > .box-sm > div > .box-sm-font {
+        font-size: 20px;
+    }
+    .legend-responsive > form, .legend-responsive > table {
+        margin: 0;
+    }
+
+    .legend-responsive::-webkit-scrollbar
+    {
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+    }
+    .legend-responsive::-webkit-scrollbar-thumb
+    {
+        border-radius: 8px;
+        border: 3px solid #FFF;
+        background-color: rgba(0, 0, 0, .3);
+    }
+
+    #unseen .autohides {
+        display: none;
+    }
+    #unseen .autoset {
+        border-radius: 3px;
+    }
+}
