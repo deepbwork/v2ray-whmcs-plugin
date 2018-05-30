@@ -129,7 +129,7 @@ function v2ray_TestConnection($vars)
 				throw new Exception('无法取得数据库连接地址');
 			}
 		}
-		$data = new \V2ray\Database('', $vars['serverusername'], $vars['serverpassword'], $hostname, $vars['serverport']);
+		$data = new \V2ray\VDatabase('', $vars['serverusername'], $vars['serverpassword'], $hostname, $vars['serverport']);
 		$getData = $data->runSQL(array(
 			'action' => array(
 				'database' => array(
