@@ -188,7 +188,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <p>
-                                    格式: <code>第一条通知 | 第二条通知 | 第 N 条通知</code>
+                                    格式: <code>第一条通知|第二条通知|第 N 条通知</code>
                                 </p>
                                 <form action="{$module}" method="post" id="notice">
                                     <input type="hidden" name="action" value="edit_notice">
@@ -209,7 +209,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <p>
-                                    格式: <code>节点名称 | 连接地址 | 连接端口 | 加密方式 | 备注信息</code>
+                                    格式: <code>节点名称|连接地址|连接端口|加密方式|备注信息</code>
                                 </p>
                                 <form action="{$module}" method="post" id="node">
                                     <input type="hidden" name="action" value="edit_node">
@@ -230,7 +230,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <p>
-                                    格式: <code>资源名称 | 资源地址 | 资源描述</code>
+                                    格式: <code>资源名称|资源地址|资源描述</code>
                                 </p>
                                 <form action="{$module}" method="post" id="resource">
                                     <input type="hidden" name="action" value="edit_resource">
