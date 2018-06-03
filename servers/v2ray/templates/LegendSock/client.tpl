@@ -295,11 +295,8 @@
                                         <td>{$value[4]|trim}</td>
                                         <td>
                                             <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                                                <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-qrcode="{$extend[$key]['v2rayIosUrl']}" data-client="iOS" title="{$LS_LANG['node']['v2ray']['title']}" name="qrcode">
-                                                    <span class="fa fa-apple" aria-hidden="true"></span>
-                                                </button>
                                                 <button type="button" class="btn btn-info btn-xs autohides" data-qrname="V2ray" data-qrcode="{$extend[$key]['v2rayOtherUrl']}" data-client="Android" title="{$LS_LANG['node']['v2ray']['title']}" name="qrcode">
-                                                    <span class="fa fa-android" aria-hidden="true"></span>
+                                                    <span class="fa fa-qrcode" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
