@@ -208,7 +208,7 @@
         </ul>
     </div>
 
-    <div class="tab-content">
+    <div class="col-md-12 tab-content" style="padding: 0">
         <div role="tabpanel" class="tab-pane active" id="home">
             <div class="col-md-12">
                 <div class="panel panel-info">
