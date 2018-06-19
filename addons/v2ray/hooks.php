@@ -49,6 +49,7 @@ add_hook('DailyCronJob', 1, function() {
 						}
 
 						$userid = $getData['product']['result']['userid'];
+						$status = $getData['product']['result']['domainstatus'];
 						$regdate = explode('-', $getData['product']['result']['regdate']);
 						$regdate = end($regdate);
 						$getData = $db->runSQL(array(
@@ -75,7 +76,7 @@ add_hook('DailyCronJob', 1, function() {
 							}
 
 							if ($regdate == $today) {
-								$ls->productReset($data, $product['pid']);
+								$ls->productReset($data, $product['pid'], $status);
 								$ls->recordLog('产品 ID #' . $product['pid'] . ' 已完成月结流量重置');
 							}
 
@@ -83,7 +84,7 @@ add_hook('DailyCronJob', 1, function() {
 
 						case 2:
 							if ($today == 1) {
-								$ls->productReset($data, $product['pid']);
+								$ls->productReset($data, $product['pid'], $status);
 								$ls->recordLog('产品 ID #' . $product['pid'] . ' 已完成月结流量重置');
 							}
 

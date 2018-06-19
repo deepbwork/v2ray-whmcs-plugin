@@ -186,7 +186,7 @@ if (!class_exists('VExtended')) {
 			}
 			throw new \Exception('产品 ID #' . $productID . ' 暂停失败');
 		}
-		public function productReset($data = '', $productID = '')
+		public function productReset($data = '', $productID = '', $status)
 		{
 			$data = (object) $data;
 			$productID = (int) $productID;
@@ -209,6 +209,16 @@ if (!class_exists('VExtended')) {
 					)
 				)
 			));
+			if ($status == 'Active') {
+				$data->runSQL(array(
+					'action' => array(
+						'user' => array(
+							'sql' => 'UPDATE user SET enable = 1 WHERE pid = ?',
+							'pre' => array($productID)
+						)
+					)
+				));
+			}
 			return true;
 		}
 		public function getSystemURL()
