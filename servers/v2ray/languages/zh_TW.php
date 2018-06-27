@@ -28,6 +28,7 @@ $LS_LANG = [
         'port' => '連接端口',
         'security' => '加密方式',
         'remarks' => '備注訊息',
+        'isTLS' => 'TLS',
         'qrcode' => '掃碼連結',
         'v2ray' => [
             'title' => 'V2ray 二維碼',

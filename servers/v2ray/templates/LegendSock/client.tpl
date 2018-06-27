@@ -280,7 +280,8 @@
                                 <th style="width: 10%;">{$LS_LANG['node']['port']}</th>
                                 <th style="width: 10%;">{$LS_LANG['node']['security']}</th>
                                 <th style="width: 20%;">{$LS_LANG['node']['remarks']}</th>
-                                <th style="width: 30%;">{$LS_LANG['node']['qrcode']}</th>
+                                <th style="width: 5%;">{$LS_LANG['node']['isTLS']}</th>
+                                <th style="width: 25%;">{$LS_LANG['node']['qrcode']}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -293,6 +294,7 @@
                                         <td>{$value[2]|trim}</td>
                                         <td>{$value[3]|trim}</td>
                                         <td>{$value[4]|trim}</td>
+                                        <td>{if $value[5] eq 1}<span class="c-badge c-badge--success">√</span>{else}<span class="c-badge c-badge--danger">×</span>{/if}</td>
                                         <td>
                                             <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
                                                 <button type="button" class="btn btn-info btn-xs autohides" data-qrname="V2ray" data-qrcode="{$extend[$key]['v2rayOtherUrl']}" data-client="Android" title="{$LS_LANG['node']['v2ray']['title']}" name="qrcode">

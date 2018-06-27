@@ -30,6 +30,7 @@ $LS_LANG = [
         'port' => '连接端口',
         'security' => '加密方式',
         'remarks' => '备注信息',
+        'isTLS' => 'TLS',
         'qrcode' => '扫码连接',
         'v2ray' => [
             'title' => 'V2ray 二维码',

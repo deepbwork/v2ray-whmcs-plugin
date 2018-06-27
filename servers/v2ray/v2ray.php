@@ -535,7 +535,7 @@ function v2ray_ClientArea($vars)
                     "net" => "tcp",
                     "type" => $value[3],
                     "host" => "",
-                    "tls" => ""
+                    "tls" => (int)$value[5]?"tls":""
                 ];
     		    $templates['extend'][$key]['v2rayOtherUrl'] = "vmess://".base64_encode(json_encode($config));
 			}

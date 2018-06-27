@@ -28,6 +28,7 @@ $LS_LANG = [
         'port' => 'Port',
         'security' => 'Security',
         'remarks' => 'Remarks',
+        'isTLS' => 'TLS',
         'qrcode' => 'QR Code',
         'v2ray' => [
             'title' => 'V2ray 二维码',

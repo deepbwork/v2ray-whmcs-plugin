@@ -209,7 +209,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <p>
-                                    格式: <code>节点名称|连接地址|连接端口|加密方式|备注信息</code>
+                                    格式: <code>节点名称|连接地址|连接端口|加密方式|备注信息|是否TLS 1开启0关闭</code>
                                 </p>
                                 <form action="{$module}" method="post" id="node">
                                     <input type="hidden" name="action" value="edit_node">
