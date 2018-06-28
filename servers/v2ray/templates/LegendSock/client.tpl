@@ -224,15 +224,25 @@
                                 <th>{$LS_LANG['product']['v2ray_alter_id']}</th>
                                 <th>{$LS_LANG['product']['v2ray_level']}</th>
                                 <th>{$LS_LANG['product']['lastTime']}</th>
+                              	{if $apiUrl neq ''}<th>订阅地址</th>{/if}
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td style="width: 10%;">{$serviceid}</td>
                                 <td style="width: 45%;"><span id="userId" onclick="javascript:document.getElementById('userId').innerHTML='{$info['v2ray_uuid']}';">{$LS_LANG['product']['show']}</span></td>
-                                <td style="width: 10%;">{$info['v2ray_alter_id']}</td>
-                                <td style="width: 10%;">{$info['v2ray_level']}</td>
+                                <td style="width: 5%;">{$info['v2ray_alter_id']}</td>
+                                <td style="width: 5%;">{$info['v2ray_level']}</td>
                                 <td style="width: 25%;">{$info['t']|date_format:'%Y-%m-%d, %H:%M'}</td>
+                              	{if $apiUrl neq ''}
+                              	<td style="width: 10%">
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
+                                      <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$apiUrl}/api.php?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}" data-client="iOS" title="订阅地址" name="v2raylink">
+                                        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                                      </button>
+                                    </div>
+                              	</td>
+                                {/if}
                             </tr>
                             </tbody>
                         </table>

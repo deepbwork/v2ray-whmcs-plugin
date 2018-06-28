@@ -463,10 +463,31 @@ function v2ray_ClientArea($vars)
 					'addition' => array(
 						'sql' => 'SELECT id FROM tblproducts WHERE servertype = \'legendtraffic\' AND configoption1 = ?',
 						'pre' => array($vars['packageid'])
+					),
+					'hosting' => array(
+						'sql' => 'SELECT userid FROM tblhosting WHERE id = ?',
+						'pre' => array($vars['serviceid'])
+					),
+					'setting' => array(
+						'sql' => 'SELECT value FROM v2ray_cache WHERE setting = ?',
+						'pre' => array('apiUrl')
 					)
 				),
 				'trans' => false
 			));
+			//getUser
+			$user = $db->runSQL(array(
+				'action' => array(
+					'clients' => array(
+						'sql' => 'SELECT uuid,groupid FROM tblclients WHERE id = ?',
+						'pre' => array($server['hosting']['result']['userid'])
+					)
+				),
+				'trans' => false
+			));
+          
+			$templates['uuid'] = $user['clients']['result']['uuid'];
+			$templates['apiUrl'] = $server['setting']['result']['value'];
 			if (!empty($vars['configoption6'])) {
 				$templates['notice'] = explode('|', $vars['configoption6']);
 			}

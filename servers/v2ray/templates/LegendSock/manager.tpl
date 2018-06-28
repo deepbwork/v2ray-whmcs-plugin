@@ -46,7 +46,10 @@
     </div>
     <div class="col-md-12">
         <ul class="nav nav-tabs" role="tablist" style="margin-bottom: 18px;margin-top: 18px">
-            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">首页</a></li>
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">仪表盘</a></li>
+            {if $page['name'] eq 'home'}
+                <li role="presentation"><a href="#other" aria-controls="other" role="tab" data-toggle="tab">配置</a></li>
+            {/if}
             <li style="float: right; padding: 5px 0px;">
                 <form action="{$modulelink}" method="post" id="converter">
                     <input name="action" value="converter" type="hidden">
@@ -339,8 +342,78 @@
                 {/if}
             </div>
         </div>
+        {if $page['name'] eq 'home'}
+            <div role="tabpanel" class="tab-pane" id="other">
+                <div class="col-md-12">
+                    <div class="alert alert-warning alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>部署须知！</strong> 需要完整实现模块的各项功能、必须使用指定服务器后端。
+                    </div>
+                    {if $errorHost}
+                        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> <strong>出现错误！</strong> 当前有数据库连接地址填写 127.0.0.1 或 localhost，请访问 Setup -> Products / Services -> Servers 将相应的数据库连接地址修改为公网( IP or CNAME )地址
+                        </div>
+                    {/if}
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">配置</h3>
+                                </div>
+                                <div class="panel-body" style="color: #666;">
+                                    <p><strong>API配置</strong></p>
+                                    <p>为了兼容如订阅等功能需要配置API来兼容:</p>
+                                    <form action="{$module}" method="post" id="apiConfig">
+                                        <input type="hidden" name="action" value="submit_apiConfig">
+                                        <div class="form-group">
+                                            <input class="form-control" rows="10" name="url" placeholder="https://api.com (末尾不带/)" value="{$apiUrl}">
+                                        </div>
+                                    </form>
+                                  	<button onclick="javascript:if(confirm('这将会覆盖原来数据库中的配置信息')) document.getElementById('apiConfig').submit();" class="btn btn-success"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> 提交修改</button>
+                                </div>
+                            </div>
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">扩展功能</h3>
+                                </div>
+                                <div class="panel-body" style="color: #666;">
+                                    <p><strong>模板切换</strong></p>
+                                    <p>支持以 Smarty 规范编写的模板，放置于如下目录:</p>
+                                    <pre>{$root}modules/servers/v2ray/templates</pre>
+                                    <p>若模板放置位置正确、则可以在填写授权编号的地方自动显示</p>
+                                    <p><strong>语言输出</strong></p>
+                                    <p>支持以数组方式编写语言包，语言包放置于如下目录:</p>
+                                    <pre>{$root}modules/servers/v2ray/languages</pre>
+                                    <p style="margin-bottom: 0">若放置正确、系统即可跟随客户设置的 WHMCS 语言自动切换</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">半自动安装</h3>
+                                </div>
+                                <div class="panel-body" style="color: #666;">
+                                    <p><strong>安装说明</strong></p>
+                                    <p>使用此方法需要手动输入数据库信息后方可自动安装，仅支持 CentOS 7</p>
+                                    <p><strong>安装 & 升级 & 卸载方式</strong></p>
+                                    <p style="margin-bottom: 0">详情请查阅 Github 文字教程: <a href="https://github.com/deepbwork/v2ray-whmcs-backend" target="_blank">https://github.com/deepbwork/v2ray-whmcs-backend</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/if}
     </div>
     <div class="col-md-12">
-        <p style="text-align: center; color: #CCC; font-size: 12px;">Powered by Hostribe, Version: {$version}</p>
+        <p style="text-align: center; color: #CCC; font-size: 12px;">Powered by Hostribe(Legendsock) Redesign Deepbwork, Version: {$version}</p>
     </div>
 </div>

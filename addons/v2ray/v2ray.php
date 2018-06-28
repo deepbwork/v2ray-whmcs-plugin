@@ -211,6 +211,7 @@ if (!function_exists('v2ray_output')) {
 				}
 				$result['vars']['productCountOld'] = \Illuminate\Database\Capsule\Manager::table('v2ray_cache')->where('setting', 'product')->first()->value;
 				$result['vars']['trafficCountOld'] = \Illuminate\Database\Capsule\Manager::table('v2ray_cache')->where('setting', 'traffic')->first()->value;
+				$result['vars']['apiUrl'] = \Illuminate\Database\Capsule\Manager::table('v2ray_cache')->where('setting', 'apiUrl')->first()->value;
 				$lastProduct = \Illuminate\Database\Capsule\Manager::table('v2ray_cache')->where('setting', 'productOld')->first()->value;
 				$lastTraffic = \Illuminate\Database\Capsule\Manager::table('v2ray_cache')->where('setting', 'trafficOld')->first()->value;
 				$result['vars']['productCount'] = $result['vars']['productCount'] - $lastProduct;
@@ -353,6 +354,18 @@ if (!function_exists('v2ray_output')) {
 						$result['vars']['page']['name'] = 'notice';
 						$result['vars']['message'] = '当前页面可编辑产品控制页面的滚动通知信息，默认写一条不滚动、留空则自动隐藏通知';
 						break;
+					
+					case 'apiConfig':
+						$getData = $db->runSQL(array(
+							'action' => array(
+								'cache' => array(
+									'sql' => 'SELECT value FROM v2ray_cache WHERE setting = ?',
+									'pre' => array('apiUrl')
+								)
+							),
+							'trans' => false
+						));
+						$result['vars']['apiUrl'] = $getData['cache']['result']['value'];
 					case 'node':
 						$getData = $db->runSQL(array(
 							'action' => array(
@@ -518,6 +531,44 @@ if (!function_exists('v2ray_output')) {
             catch (Exception $e) {
 							$result['vars']['tips'] = 'danger';
 							$result['vars']['message'] = '数据库 ID #' . $_POST['id'] . ' 节点信息修改失败，错误信息: ' . $e->getMessage();
+						}
+						break;
+					case 'submit_apiConfig':
+						try {
+							$getData = $db->runSQL(array(
+								'action' => array(
+									'cache' => array(
+										'sql' => 'SELECT value FROM v2ray_cache WHERE setting = ?',
+										'pre' => array('apiUrl')
+									)
+								),
+								'trans' => false
+							));
+							if ($getData['cache']['rows'] == 0) {
+								$db->runSQL(array(
+									'action' => array(
+										'cache' => array(
+											'sql' => 'INSERT INTO v2ray_cache(setting,value) VALUES (?,?)',
+											'pre' => array('apiUrl', $_POST['url'])
+										)
+									)
+								));
+							} else {
+								$db->runSQL(array(
+									'action' => array(
+										'resource' => array(
+											'sql' => 'UPDATE v2ray_cache SET value = ? WHERE setting = ?',
+											'pre' => array($_POST['url'], 'apiUrl')
+										)
+									)
+								));
+							}
+							$result['vars']['tips'] = 'success';
+							$result['vars']['message'] = 'API信息修改成功，更新浏览器缓存后、刷新即可查阅';
+						}
+            catch (Exception $e) {
+							$result['vars']['tips'] = 'danger';
+							$result['vars']['message'] = 'API信息修改失败，错误信息: ' . $e->getMessage();
 						}
 						break;
 					case 'edit_resource':
