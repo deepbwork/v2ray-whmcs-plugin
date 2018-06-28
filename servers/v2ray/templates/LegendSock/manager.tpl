@@ -347,7 +347,7 @@
                 <div class="col-md-12">
                     <div class="alert alert-warning alert-dismissible fade in" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>部署须知！</strong> 需要完整实现模块的各项功能、必须使用指定服务器后端。
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <strong>部署须知！</strong> 需要完整实现模块的各项功能、必须使用指定服务器后端(v2ray-whmcs-backend)及API端(v2ray-whmcs-api)。
                     </div>
                     {if $errorHost}
                         <div class="alert alert-danger alert-dismissible fade in" role="alert">
