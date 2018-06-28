@@ -369,7 +369,7 @@
                                     <form action="{$module}" method="post" id="apiConfig">
                                         <input type="hidden" name="action" value="submit_apiConfig">
                                         <div class="form-group">
-                                            <input class="form-control" rows="10" name="url" placeholder="https://api.com/ (末尾带 / )" value="{$apiUrl}">
+                                            <input class="form-control" rows="10" name="url" placeholder="https://api.com/api.php (精确到文件)" value="{$apiUrl}">
                                         </div>
                                     </form>
                                   	<button onclick="javascript:if(confirm('这将会覆盖原来数据库中的配置信息')) document.getElementById('apiConfig').submit();" class="btn btn-success"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> 提交修改</button>

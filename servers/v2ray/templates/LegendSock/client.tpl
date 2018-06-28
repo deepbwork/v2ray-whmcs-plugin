@@ -237,7 +237,7 @@
                               	{if $apiUrl neq ''}
                               	<td style="width: 10%">
                                     <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                                      <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$apiUrl}api.php?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}" data-client="iOS" title="订阅地址" name="v2raylink">
+                                      <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$apiUrl}?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}" data-client="iOS" title="订阅地址" name="v2raylink">
                                         <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
                                       </button>
                                     </div>
