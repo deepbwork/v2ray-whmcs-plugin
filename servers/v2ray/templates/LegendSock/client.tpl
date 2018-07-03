@@ -4,6 +4,7 @@
 <script src="{$systemurl}modules/servers/v2ray/templates/LegendSock/javascripts/qrcode.js"></script>
 <script src="{$systemurl}modules/servers/v2ray/templates/LegendSock/javascripts/common.js"></script>
 <script src="{$systemurl}modules/servers/v2ray/templates/LegendSock/javascripts/chart.js"></script>
+<script src="{$systemurl}modules/servers/v2ray/templates/LegendSock/javascripts/clipboard.min.js"></script>
 
 <style>
     #QRCode_HTML {
@@ -106,18 +107,16 @@
                 content: document.getElementById('QRCode_HTML').innerHTML + '<p>{$LS_LANG['qrcode']['0']} ' + qrname + ' {$LS_LANG['qrcode']['1']}</p>'
             });
         });
-        $("[name='v2raylink']").on('click', function() {
-            layer.open({
-                type: 1,
-                title: $(this).attr('title'),
-                shade: [0.8, '#000'],
-                skin: 'layui-layer-demo',
-                closeBtn: 1,
-                shift: 2,
-                shadeClose: true,
-                content: '<p style="word-wrap:break-word;text-align:left;padding: 15px">' + $(this).attr('data-link') + '</p>'
-            })
+
+        var clipboard = new ClipboardJS("[name='v2raylink']");
+        clipboard.on('success', function(e) {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            layer.msg('已经复制到剪切板');
+            e.clearSelection();
         });
+
         $("[name='guiconfig']").on('click',function() {
             function download(fileName, blob){
                 var aLink = document.createElement('a');
@@ -127,7 +126,6 @@
                 aLink.href = URL.createObjectURL(blob);
                 aLink.dispatchEvent(evt);
             }
-
             function stringToBlob(text) {
                 var u8arr = new Uint8Array(text.length);
                 for (var i = 0, len = text.length; i < len; ++i) {
@@ -224,7 +222,7 @@
                                 <th>{$LS_LANG['product']['v2ray_alter_id']}</th>
                                 <th>{$LS_LANG['product']['v2ray_level']}</th>
                                 <th>{$LS_LANG['product']['lastTime']}</th>
-                              	{if $apiUrl neq ''}<th>订阅地址</th>{/if}
+                                {if $apiUrl neq ''}<th>订阅地址</th>{/if}
                             </tr>
                             </thead>
                             <tbody>
@@ -234,14 +232,14 @@
                                 <td style="width: 5%;">{$info['v2ray_alter_id']}</td>
                                 <td style="width: 5%;">{$info['v2ray_level']}</td>
                                 <td style="width: 25%;">{$info['t']|date_format:'%Y-%m-%d, %H:%M'}</td>
-                              	{if $apiUrl neq ''}
-                              	<td style="width: 10%">
+                                {if $apiUrl neq ''}
+                                <td style="width: 10%">
                                     <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                                      <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$apiUrl}?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}" data-client="iOS" title="订阅地址" name="v2raylink">
-                                        <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                                      <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$apiUrl}?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}" data-client="iOS" title="订阅地址" name="v2raylink" data-clipboard-text="{$apiUrl}?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}">
+                                        <span class="glyphicon glyphicon-link" aria-hidden="true"></span> 点击复制
                                       </button>
                                     </div>
-                              	</td>
+                                </td>
                                 {/if}
                             </tr>
                             </tbody>
@@ -307,12 +305,12 @@
                                         <td>{if $value[5] eq 1}<span class="c-badge c-badge--success">√</span>{else}<span class="c-badge c-badge--danger">×</span>{/if}</td>
                                         <td>
                                             <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                                                <button type="button" class="btn btn-info btn-xs autohides" data-qrname="V2ray" data-qrcode="{$extend[$key]['v2rayOtherUrl']}" data-client="Android" title="{$LS_LANG['node']['v2ray']['title']}" name="qrcode">
+                                                <button type="button" class="btn btn-info btn-xs autohides" data-qrname="V2ray" data-qrcode="{$extend[$key]['v2rayOtherUrl']}" data-client="移动端" title="{$LS_LANG['node']['v2ray']['title']}" name="qrcode">
                                                     <span class="fa fa-qrcode" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                                                <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$extend[$key]['v2rayOtherUrl']}" data-client="iOS" title="{$LS_LANG['node']['v2ray']['titleUri']}" name="v2raylink">
+                                                <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$extend[$key]['v2rayOtherUrl']}" data-client="iOS" title="{$LS_LANG['node']['v2ray']['titleUri']}" name="v2raylink" data-clipboard-text="{$extend[$key]['v2rayOtherUrl']}">
                                                     <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {$LS_LANG['node']['v2ray']['importUri']}
                                                 </button>
                                             </div>
