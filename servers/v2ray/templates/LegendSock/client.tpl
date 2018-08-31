@@ -6,6 +6,7 @@
 <script src="{$systemurl}modules/servers/v2ray/templates/LegendSock/javascripts/chart.js"></script>
 <script src="{$systemurl}modules/servers/v2ray/templates/LegendSock/javascripts/clipboard.min.js"></script>
 
+<script src="{$systemurl}modules/servers/v2ray/templates/LegendSock/javascripts/custom.js"></script>
 <style>
     #QRCode_HTML {
         display: none;
@@ -55,93 +56,6 @@
         var chart = document.getElementById("myChart").getContext("2d");
         window.myLine = new Chart(chart, myChart);
     };
-    $(document).ready(function($) {
-        // 声明一个 QRCode，选择 id 为 qrcode 的元素
-        var qrcode = new QRCode("QRCode", {
-            text: "default",
-            width: 280,
-            height: 280,
-            colorDark : "#000",
-            colorLight : "#FFF",
-            correctLevel : QRCode.CorrectLevel.L
-        });
-        // 定义 name 为 qrcode 的元素按下时的事件
-        $("[name='qrcode']").on('click',function() {
-            qrcode.clear(); // 清空图像
-            // QR 的名字
-            qrname = $(this).attr('data-qrname');
-            // QR 的主体内容
-            var qrcontent = $(this).attr('data-qrcode');
-            // 判断是 Shadowsocks 还是其他的二维码
-            switch (qrname) {
-                case 'Shadowsocks':
-                    // 如果是 Shadowsocks
-                    qrcontent = 'ss://' + window.btoa(qrcontent);
-                    break;
-                case 'ShadowsocksR':
-                    // 如果是 ShadowsocksR
-                    qrcontent = 'ssr://' + window.btoa(qrcontent);
-                    break;
-                case 'V2ray':
-                    qrcontent = qrcontent;
-                    break;
-                default:
-                    // 默认什么都不做
-                    break;
-            }
-            
-            if ($(this).attr('data-client')) {
-                qrname = qrname + $(this).attr('data-client');
-            }
-            // 生成另一个图像
-            qrcode.makeCode(qrcontent);
-            // 弹出层
-            layer.open({
-                type: 1,
-                title: $(this).attr('title'),
-                shade: [0.8, '#000'],
-                skin: 'layui-layer-demo',
-                closeBtn: 1,
-                shift: 2,
-                shadeClose: true,
-                content: document.getElementById('QRCode_HTML').innerHTML + '<p>{$LS_LANG['qrcode']['0']} ' + qrname + ' {$LS_LANG['qrcode']['1']}</p>'
-            });
-        });
-
-        var clipboard = new ClipboardJS("[name='v2raylink']");
-        clipboard.on('success', function(e) {
-            console.info('Action:', e.action);
-            console.info('Text:', e.text);
-            console.info('Trigger:', e.trigger);
-            layer.msg('已经复制到剪切板');
-            e.clearSelection();
-        });
-
-        $("[name='guiconfig']").on('click',function() {
-            function download(fileName, blob){
-                var aLink = document.createElement('a');
-                var evt = document.createEvent("MouseEvents");
-                evt.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                aLink.download = fileName;
-                aLink.href = URL.createObjectURL(blob);
-                aLink.dispatchEvent(evt);
-            }
-            function stringToBlob(text) {
-                var u8arr = new Uint8Array(text.length);
-                for (var i = 0, len = text.length; i < len; ++i) {
-                    u8arr[i] = text.charCodeAt(i);
-                }
-                var blob = new Blob([u8arr]);
-                return blob;
-            }
-            var json_content = $(this).attr('data-guiconfig');
-            json_content = window.atob(json_content);
-            json_content = json_content.replace(/\r\n|\n/g,"");
-            json_content = json_content.replace(/\'/ig,"\"");
-            var blob = stringToBlob(JSON.stringify(JSON.parse(json_content),null,2));
-            download('gui-config.json', blob);
-        });
-    });
 </script>
 
 <div id="QRCode_HTML">
@@ -223,6 +137,7 @@
                                 <th>{$LS_LANG['product']['v2ray_level']}</th>
                                 <th>{$LS_LANG['product']['lastTime']}</th>
                                 {if $apiUrl neq ''}<th>订阅地址</th>{/if}
+                                <th>安全</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -241,6 +156,13 @@
                                     </div>
                                 </td>
                                 {/if}
+                                <td style="width: 10%">
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
+                                      <button type="button" class="btn btn-info btn-xs autoset" id="securityReset">
+                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 重置
+                                      </button>
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

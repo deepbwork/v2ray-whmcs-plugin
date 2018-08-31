@@ -186,7 +186,37 @@ if (!class_exists('VExtended')) {
 			}
 			throw new \Exception('产品 ID #' . $productID . ' 暂停失败');
 		}
-		public function productReset($data = '', $productID = '', $status)
+
+		public function securityReset($db = '', $data = '', $vars){
+          	$data = (object) $data;
+			if(empty($vars) || empty($data)) {
+				throw new \Exception('无法获取产品信息');
+			}
+
+			$data->runSQL(array(
+				'action' => array(
+					'v2ray' => array(
+						'sql' => 'UPDATE user SET v2ray_uuid = ? WHERE pid = ?',
+						'pre' => array($this->getRandUUID(), $vars['serviceid'])
+					)
+				)
+			));
+
+			$db->runSQL(array(
+				'action' => array(
+					'client' => array(
+						'sql' => 'UPDATE tblclients SET uuid = ? WHERE id = ?',
+						'pre' => array($this->getRandUUID(), $vars['userid'])
+					)
+				)
+			));
+          
+          	exit(json_encode([
+				  'code' => '0',
+				  'msg' => 'success'
+			  ]));
+		}
+		public function productReset($data = '', $productID = '', $hostingInfo)
 		{
 			$data = (object) $data;
 			$productID = (int) $productID;
@@ -209,7 +239,8 @@ if (!class_exists('VExtended')) {
 					)
 				)
 			));
-			if ($status == 'Active') {
+			//如果不是一次性支付 且 下次过期日大于当前时间
+			if ($hostingInfo['billingcycle'] !== 'One Time' && strtotime($hostingInfo['nextduedate'])>=time()) {
 				$data->runSQL(array(
 					'action' => array(
 						'user' => array(

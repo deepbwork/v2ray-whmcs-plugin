@@ -448,9 +448,16 @@ function v2ray_ClientArea($vars)
 				),
 				'trans' => false
 			));
+
 			if (empty($getData['user']['result'])) {
 				throw new Exception('无法从数据库中取得当前产品的信息，请检查产品是否并未处于开通状态');
 			}
+
+
+			if (!empty($_GET['method'])&&$_GET['method']=='securityReset') {
+				$ls->securityReset($db, $data, $vars);
+			}
+
 			$templates['info'] = $getData['user']['result'];
 			$templates['info']['obfs'] = preg_replace('/_compatible/m', '', $templates['info']['obfs']);
 			$templates['info']['protocol'] = preg_replace('/_compatible/m', '', $templates['info']['protocol']);
