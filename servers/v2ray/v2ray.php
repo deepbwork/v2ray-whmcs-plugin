@@ -233,20 +233,17 @@ function v2ray_CreateAccount($vars)
 function v2ray_SuspendAccount($vars)
 {
 	try {
-		if ($vars['status'] == 'Active') {
-			$ls = new \V2ray\VExtended();
-			$data = $ls->getConnect($vars['serverid']);
-			$data->runSQL(array(
-				'action' => array(
-					'suspend' => array(
-						'sql' => 'UPDATE user SET enable = 0 WHERE pid = ?',
-						'pre' => array($vars['serviceid'])
-					)
+		$ls = new \V2ray\VExtended();
+		$data = $ls->getConnect($vars['serverid']);
+		$data->runSQL(array(
+			'action' => array(
+				'suspend' => array(
+					'sql' => 'UPDATE user SET enable = 0 WHERE pid = ?',
+					'pre' => array($vars['serviceid'])
 				)
-			));
-			return 'success';
-		}
-		throw new Exception('由于产品并非激活状态，无法为你暂停此产品');
+			)
+		));
+		return 'success';
 	}
 	catch (Exception $e) {
 		logModuleCall('V2ray', explode('_', 'v2ray_SuspendAccount')[1], $vars, $e->getMessage(), $e->getTraceAsString());
@@ -287,7 +284,7 @@ function v2ray_TerminateAccount($vars)
 				$data->runSQL(array(
 					'action' => array(
 						'terminate' => array(
-							'sql' => 'UPDATE user SET enable = 0 WHERE pid = ?',
+							'sql' => 'DELETE FROM user WHERE pid = ?',
 							'pre' => array($vars['serviceid'])
 						)
 					)
