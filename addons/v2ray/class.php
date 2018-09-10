@@ -239,16 +239,18 @@ if (!class_exists('VExtended')) {
 					)
 				)
 			));
-			//如果不是一次性支付 且 下次过期日大于当前时间
-			if ($hostingInfo['billingcycle'] !== 'One Time' && strtotime($hostingInfo['nextduedate'])>=time()) {
-				$data->runSQL(array(
-					'action' => array(
-						'user' => array(
-							'sql' => 'UPDATE user SET enable = 1 WHERE pid = ?',
-							'pre' => array($productID)
+			if ($hostingInfo) {
+				//如果不是一次性支付 且 下次过期日大于当前时间
+				if ($hostingInfo['billingcycle'] !== 'One Time' && strtotime($hostingInfo['nextduedate'])>=time()) {
+					$data->runSQL(array(
+						'action' => array(
+							'user' => array(
+								'sql' => 'UPDATE user SET enable = 1 WHERE pid = ?',
+								'pre' => array($productID)
+							)
 						)
-					)
-				));
+					));
+				}
 			}
 			return true;
 		}

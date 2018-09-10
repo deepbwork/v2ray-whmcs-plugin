@@ -345,10 +345,20 @@ function v2ray_ChangePackage($vars)
 function v2ray_ResetTraffic($vars)
 {
 	try {
-		$ls = new \V2ray\VExtended();
-		$data = $ls->getConnect($vars['serverid']);
-		$ls->productReset($data, $vars['serviceid']);
-		return 'success';
+		if ($vars['status'] == 'Active') {
+			$ls = new \V2ray\VExtended();
+			$data = $ls->getConnect($vars['serverid']);
+			$data->runSQL(array(
+				'action' => array(
+					'reset' => array(
+						'sql' => 'UPDATE user SET enable = 1, u = 0, d = 0  WHERE pid = ?',
+						'pre' => array($vars['serviceid'])
+					)
+				)
+			));
+			return 'success';
+		}
+		throw new Exception('产品并非已激活状态，无法重置');
 	}
 	catch (Exception $e) {
 		logModuleCall('V2ray', explode('_', 'v2ray_ResetTraffic')[1], $vars, $e->getMessage(), $e->getTraceAsString());
