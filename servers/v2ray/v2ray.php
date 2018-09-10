@@ -345,13 +345,10 @@ function v2ray_ChangePackage($vars)
 function v2ray_ResetTraffic($vars)
 {
 	try {
-		if ($vars['status'] == 'Active') {
-			$ls = new \V2ray\VExtended();
-			$data = $ls->getConnect($vars['serverid']);
-			$ls->productReset($data, $vars['serviceid']);
-			return 'success';
-		}
-		throw new Exception('由于产品并非已激活状态，无法为你重设流量');
+		$ls = new \V2ray\VExtended();
+		$data = $ls->getConnect($vars['serverid']);
+		$ls->productReset($data, $vars['serviceid']);
+		return 'success';
 	}
 	catch (Exception $e) {
 		logModuleCall('V2ray', explode('_', 'v2ray_ResetTraffic')[1], $vars, $e->getMessage(), $e->getTraceAsString());
