@@ -240,26 +240,25 @@ if (!class_exists('VExtended')) {
 				)
 			));
 			if ($hostingInfo) {
-				switch($hostingInfo['domainstatus']){
-					case 'Active':
-						$data->runSQL(array(
-							'action' => array(
-								'user' => array(
-									'sql' => 'UPDATE user SET enable = 1 WHERE pid = ?',
-									'pre' => array($productID)
-								)
+				if($hostingInfo['domain'] !== 'Active') {
+					$data->runSQL(array(
+						'action' => array(
+							'user' => array(
+								'sql' => 'UPDATE user SET enable = 0 WHERE pid = ?',
+								'pre' => array($productID)
 							)
-						));
-						break;
-					default: 
-						$data->runSQL(array(
-							'action' => array(
-								'user' => array(
-									'sql' => 'UPDATE user SET enable = 0 WHERE pid = ?',
-									'pre' => array($productID)
-								)
+						)
+					));
+				}
+				if ($hostingInfo['domain'] === 'Active') {
+					$data->runSQL(array(
+						'action' => array(
+							'user' => array(
+								'sql' => 'UPDATE user SET enable = 1 WHERE pid = ?',
+								'pre' => array($productID)
 							)
-						));
+						)
+					));
 				}
 			}
 			return true;
