@@ -240,7 +240,7 @@ if (!class_exists('VExtended')) {
 				)
 			));
 			if ($hostingInfo) {
-				if($hostingInfo['domain'] !== 'Active') {
+				if($hostingInfo['domainstatus'] !== 'Active') {
 					$data->runSQL(array(
 						'action' => array(
 							'user' => array(
@@ -250,7 +250,7 @@ if (!class_exists('VExtended')) {
 						)
 					));
 				}
-				if ($hostingInfo['domain'] === 'Active') {
+				if ($hostingInfo['domainstatus'] === 'Active') {
 					$data->runSQL(array(
 						'action' => array(
 							'user' => array(
