@@ -278,6 +278,7 @@ function v2ray_TerminateAccount($vars)
 	try {
 		switch ($vars['status']) {
 			case 'Active':
+				throw new Exception('该用户服务为激活状态，删除可能导致黑户');
 			case 'Suspended':
 				$ls = new \V2ray\VExtended();
 				$data = $ls->getConnect($vars['serverid']);

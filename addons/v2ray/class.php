@@ -241,11 +241,20 @@ if (!class_exists('VExtended')) {
 			));
 			if ($hostingInfo) {
 				//如果不是一次性支付 且 下次过期日大于当前时间
-				if ($hostingInfo['billingcycle'] !== 'One Time' && strtotime($hostingInfo['nextduedate'])>=time() && $hostingInfo['domainstatus'] == 'Active') {
+				if ($hostingInfo['domainstatus'] == 'Active') {
 					$data->runSQL(array(
 						'action' => array(
 							'user' => array(
 								'sql' => 'UPDATE user SET enable = 1 WHERE pid = ?',
+								'pre' => array($productID)
+							)
+						)
+					));
+				}else{
+					$data->runSQL(array(
+						'action' => array(
+							'user' => array(
+								'sql' => 'UPDATE user SET enable = 0 WHERE pid = ?',
 								'pre' => array($productID)
 							)
 						)
