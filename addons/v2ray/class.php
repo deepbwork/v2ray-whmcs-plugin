@@ -241,7 +241,7 @@ if (!class_exists('VExtended')) {
 			));
 			if ($hostingInfo) {
 				//如果不是一次性支付 且 下次过期日大于当前时间
-				if ($hostingInfo['billingcycle'] !== 'One Time' && strtotime($hostingInfo['nextduedate'])>=time()) {
+				if ($hostingInfo['billingcycle'] !== 'One Time' && strtotime($hostingInfo['nextduedate'])>=time() && $hostingInfo['domainstatus'] == 'Active') {
 					$data->runSQL(array(
 						'action' => array(
 							'user' => array(
