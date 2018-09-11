@@ -77,7 +77,7 @@ add_hook('DailyCronJob', 1, function() {
 							}
 
 							if ($regdate == $today) {
-								$ls->productReset($data, $product['pid'], $hostingInfo);
+								$ls->productReset($data, $product['pid']);
 								$ls->recordLog('产品 ID #' . $product['pid'] . ' 已完成月结流量重置');
 							}
 
@@ -85,7 +85,7 @@ add_hook('DailyCronJob', 1, function() {
 
 						case 2:
 							if ($today == 1) {
-								$ls->productReset($data, $product['pid'], $hostingInfo);
+								$ls->productReset($data, $product['pid']);
 								$ls->recordLog('产品 ID #' . $product['pid'] . ' 已完成月结流量重置');
 							}
 
@@ -93,6 +93,12 @@ add_hook('DailyCronJob', 1, function() {
 
 						default:
 							break;
+						}
+
+						if ($getData['product']['result']['domainstatus'] === 'Active') {
+							$ls->productUnsuspend($product['pid']);
+						}elseif($getData['product']['result']['domainstatus'] !== 'Active'){
+							$ls->productSuspend($product['pid']);
 						}
 
 						if ($config['autoSuspend']['switch'] == 'On') {

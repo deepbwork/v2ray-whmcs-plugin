@@ -187,6 +187,17 @@ if (!class_exists('VExtended')) {
 			throw new \Exception('产品 ID #' . $productID . ' 暂停失败');
 		}
 
+		public function productUnsuspend($productID = '', $suspendReason = 'ModuleUnsuspend')
+		{
+			$values['accountid'] = (int) $productID;
+			$values['suspendreason'] = $suspendReason;
+			$result = localAPI('moduleunsuspend', $values, (string) $this->getAdminUser());
+			if ($result['result'] == 'success') {
+				return true;
+			}
+			throw new \Exception('产品 ID #' . $productID . ' 解除暂停失败');
+		}
+
 		public function securityReset($db = '', $data = '', $vars){
           	$data = (object) $data;
 			if(empty($vars) || empty($data)) {
@@ -216,7 +227,7 @@ if (!class_exists('VExtended')) {
 				  'msg' => 'success'
 			  ]));
 		}
-		public function productReset($data = '', $productID = '', $hostingInfo)
+		public function productReset($data = '', $productID = '')
 		{
 			$data = (object) $data;
 			$productID = (int) $productID;
@@ -239,28 +250,6 @@ if (!class_exists('VExtended')) {
 					)
 				)
 			));
-			if ($hostingInfo) {
-				if($hostingInfo['domainstatus'] !== 'Active') {
-					$data->runSQL(array(
-						'action' => array(
-							'user' => array(
-								'sql' => 'UPDATE user SET enable = 0 WHERE pid = ?',
-								'pre' => array($productID)
-							)
-						)
-					));
-				}
-				if ($hostingInfo['domainstatus'] === 'Active') {
-					$data->runSQL(array(
-						'action' => array(
-							'user' => array(
-								'sql' => 'UPDATE user SET enable = 1 WHERE pid = ?',
-								'pre' => array($productID)
-							)
-						)
-					));
-				}
-			}
 			return true;
 		}
 		public function getSystemURL()
