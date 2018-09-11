@@ -253,20 +253,17 @@ function v2ray_SuspendAccount($vars)
 function v2ray_UnsuspendAccount($vars)
 {
 	try {
-		if ($vars['status'] == 'Suspended') {
-			$ls = new \V2ray\VExtended();
-			$data = $ls->getConnect($vars['serverid']);
-			$data->runSQL(array(
-				'action' => array(
-					'unsuspend' => array(
-						'sql' => 'UPDATE user SET enable = 1 WHERE pid = ?',
-						'pre' => array($vars['serviceid'])
-					)
+		$ls = new \V2ray\VExtended();
+		$data = $ls->getConnect($vars['serverid']);
+		$data->runSQL(array(
+			'action' => array(
+				'unsuspend' => array(
+					'sql' => 'UPDATE user SET enable = 1 WHERE pid = ?',
+					'pre' => array($vars['serviceid'])
 				)
-			));
-			return 'success';
-		}
-		throw new Exception('由于产品并非暂停状态，因此无法为你解除暂停');
+			)
+		));
+		return 'success';
 	}
 	catch (Exception $e) {
 		logModuleCall('V2ray', explode('_', 'v2ray_UnsuspendAccount')[1], $vars, $e->getMessage(), $e->getTraceAsString());
