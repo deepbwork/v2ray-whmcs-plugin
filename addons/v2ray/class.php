@@ -99,7 +99,7 @@ if (!class_exists('VExtended')) {
 						throw new \Exception('未定义需要记录的日志内容');
 					}
 					else {
-					    file_put_contents(__V2RAY__.'v2ray.log', $log);
+					    file_put_contents(__V2RAY__.'v2ray.log', $log . "\r\n", FILE_APPEND);
 						$values['description'] = 'V2ray: ' . $log;
 						$result = localAPI('logactivity', $values, (string) $this->getAdminUser());
 
@@ -191,7 +191,7 @@ if (!class_exists('VExtended')) {
 		{
 			$values['accountid'] = (int) $productID;
 			$values['suspendreason'] = $suspendReason;
-			$result = localAPI('moduleunsuspend', $values, (string) $this->getAdminUser());
+			$result = localAPI('ModuleUnsuspend', $values, (string) $this->getAdminUser());
 			if ($result['result'] == 'success') {
 				return true;
 			}

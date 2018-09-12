@@ -37,7 +37,7 @@ add_hook('DailyCronJob', 1, function() {
 						$getData = $db->runSQL(array(
 							'action' => array(
 								'product' => array(
-									'sql' => 'SELECT regdate,userid,packageid FROM tblhosting WHERE id = ?',
+									'sql' => 'SELECT * FROM tblhosting WHERE id = ?',
 									'pre' => array($product['pid'])
 								)
 							),
@@ -49,7 +49,6 @@ add_hook('DailyCronJob', 1, function() {
 						}
 
 						$userid = $getData['product']['result']['userid'];
-						$status = $getData['product']['result']['domainstatus'];
 						$hostingInfo = $getData['product']['result'];
 						$regdate = explode('-', $getData['product']['result']['regdate']);
 						$regdate = end($regdate);
@@ -94,10 +93,10 @@ add_hook('DailyCronJob', 1, function() {
 						default:
 							break;
 						}
-
-						if ($getData['product']['result']['domainstatus'] === 'Active') {
+						
+						if ($hostingInfo['domainstatus'] === 'Active') {
 							$ls->productUnsuspend($product['pid']);
-						}elseif($getData['product']['result']['domainstatus'] !== 'Active'){
+						}else{
 							$ls->productSuspend($product['pid']);
 						}
 
