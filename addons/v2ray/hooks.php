@@ -13,7 +13,6 @@ add_hook('DailyCronJob', 1, function() {
 		));
 		$cacheTraffic = 0;
 		$cacheProduct = 0;
-
 		foreach ($getData['server']['result'] as $serverID) {
 			try {
 				$data = $ls->getConnect($serverID['id']);
@@ -24,14 +23,11 @@ add_hook('DailyCronJob', 1, function() {
 					),
 					'trans'  => false
 				));
-
 				if (empty($getData['user']['result'])) {
 					throw new Exception('数据库 ID #' . $serverID['id'] . ' 中没有找到产品');
 				}
-
 				$cacheTraffic = current($getData['traffic']['result']) + $cacheTraffic;
 				$cacheProduct = $getData['user']['rows'] + $cacheProduct;
-
 				foreach ($getData['user']['result'] as $product) {
 					try {
 						$getData = $db->runSQL(array(
@@ -43,11 +39,9 @@ add_hook('DailyCronJob', 1, function() {
 							),
 							'trans'  => false
 						));
-
 						if (empty($getData['product']['result'])) {
 							throw new Exception('无法在数据库中找到产品 ID #' . $product['pid'] . ' 的信息');
 						}
-
 						$userid = $getData['product']['result']['userid'];
 						$hostingInfo = $getData['product']['result'];
 						$regdate = explode('-', $getData['product']['result']['regdate']);
@@ -61,61 +55,46 @@ add_hook('DailyCronJob', 1, function() {
 							),
 							'trans'  => false
 						));
-
 						if (empty($getData['setting']['result'])) {
 							throw new Exception('无法在数据库中找到套餐 ID #' . $getData['product']['result']['packageid'] . ' 的信息');
 						}
-
 						$today = date('j');
 						$dayNumber = date('t');
-
 						switch ($getData['setting']['result']['configoption5']) {
 						case 1:
 							if ($dayNumber < $regdate) {
 								$regdate = $dayNumber;
 							}
-
 							if ($regdate == $today) {
 								$ls->productReset($data, $product['pid']);
 								if($hostingInfo['domainstatus'] === 'Active'){
-									$ls->productUnsuspend($product['pid']);
+									$ls->v2rayUnsuspend($data, $product['pid']);
 								}
 								$ls->recordLog('产品 ID #' . $product['pid'] . ' 已完成月结流量重置');
 							}
-
 							break;
-
 						case 2:
 							if ($today == 1) {
 								$ls->productReset($data, $product['pid']);
 								if($hostingInfo['domainstatus'] === 'Active'){
-									$ls->productUnsuspend($product['pid']);
+									$ls->v2rayUnsuspend($data, $product['pid']);
 								}
 								$ls->recordLog('产品 ID #' . $product['pid'] . ' 已完成月结流量重置');
 							}
-
 							break;
-
 						default:
 							break;
 						}
-						
-						if($hostingInfo['domainstatus'] !== 'Active'){
-							$ls->productSuspend($product['pid']);
-						}
-
 						if ($config['autoSuspend']['switch'] == 'On') {
 							if ($product['transfer_enable'] <= $product['u'] + $product['d']) {
 								$ls->productSuspend($product['pid'], $config['autoSuspend']['tips']);
 								$ls->sendEmail($config['autoSuspend']['mail'], $userid);
 							}
 						}
-
 						if ($getData['setting']['result']['configoption4'] == 'On') {
 							$mail = $config['common']['mail'];
 							$mail['value'] = $mail['value'] / 100;
 							$percent = 1 - (($product['u'] + $product['d']) / $product['transfer_enable']);
-
 							if ($percent <= $mail['value']) {
 								$getData = $data->runSQL(array(
 									'action' => array(
@@ -126,7 +105,6 @@ add_hook('DailyCronJob', 1, function() {
 									),
 									'trans'  => false
 								));
-
 								if (empty($getData['check']['result'])) {
 									$ls->sendEmail($mail['title'], $userid);
 									$data->runSQL(array(
@@ -155,7 +133,6 @@ add_hook('DailyCronJob', 1, function() {
 								}
 							}
 						}
-
 						$getData = $data->runSQL(array(
 							'action' => array(
 								'chart' => array(
@@ -165,7 +142,6 @@ add_hook('DailyCronJob', 1, function() {
 							),
 							'trans'  => false
 						));
-
 						if (empty($getData['chart']['result'])) {
 							$getData['chart']['result']['upload'] = '0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0';
 							$getData['chart']['result']['download'] = '0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0';
@@ -178,25 +154,20 @@ add_hook('DailyCronJob', 1, function() {
 								)
 							));
 						}
-
 						$upload = explode(',', $getData['chart']['result']['upload']);
 						$download = explode(',', $getData['chart']['result']['download']);
 						$upload[$today] = $product['u'] - $upload[0];
 						$download[$today] = $product['d'] - $download[0];
-
 						if ($upload[$today] < 0) {
 							$upload[$today] = 0;
 						}
-
 						if ($download[$today] < 0) {
 							$download[$today] = 0;
 						}
-
 						$upload[0] = $product['u'];
 						$download[0] = $product['d'];
 						$chartUpload = '';
 						$chartDownload = '';
-
 						foreach ($upload as $key => $value) {
 							if ($key == 0) {
 								$chartUpload .= $product['u'];
@@ -205,7 +176,6 @@ add_hook('DailyCronJob', 1, function() {
 								$chartUpload .= ',' . $value;
 							}
 						}
-
 						foreach ($download as $key => $value) {
 							if ($key == 0) {
 								$chartDownload .= $product['d'];
@@ -214,7 +184,6 @@ add_hook('DailyCronJob', 1, function() {
 								$chartDownload .= ',' . $value;
 							}
 						}
-
 						$data->runSQL(array(
 							'action' => array(
 								'chart' => array(
@@ -236,7 +205,6 @@ add_hook('DailyCronJob', 1, function() {
 				continue;
 			}
 		}
-
 		try {
 			$getData = $db->runSQL(array(
 				'action' => array(
@@ -256,18 +224,14 @@ add_hook('DailyCronJob', 1, function() {
 				$getData['trafficOld']['result']['value'] = 0;
 				$getData['productOld']['result']['value'] = 0;
 			}
-
 			$todayTraffic = $cacheTraffic - $getData['trafficOld']['result']['value'];
 			$todayProduct = $cacheProduct - $getData['productOld']['result']['value'];
-
 			if ($todayTraffic < 0) {
 				$todayTraffic = 0;
 			}
-
 			if ($todayProduct < 0) {
 				$todayProduct = 0;
 			}
-
 			$db->runSQL(array(
 				'action' => array(
 					'traffic'    => array(
@@ -297,5 +261,4 @@ add_hook('DailyCronJob', 1, function() {
 	catch (Exception $e) {
 	}
 });
-
 ?>
