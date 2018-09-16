@@ -186,6 +186,23 @@ if (!class_exists('VExtended')) {
 			}
 			throw new \Exception('产品 ID #' . $productID . ' 暂停失败');
 		}
+		
+		public function v2rayUnsuspend($data = '', $productID = '' ){
+			$data = (object) $data;
+			$productID = (int) $productID;
+			if (empty($data) || empty($productID)) {
+				throw new \Exception('未定义数据库连接或需要重置流量的产品 ID 编号');
+			}
+			$data->runSQL(array(
+				'action' => array(
+					'user' => array(
+						'sql' => 'UPDATE user SET enable=1 WHERE pid = ?',
+						'pre' => array($productID)
+					)
+				)
+			));
+			return true;
+		}
 
 		public function productUnsuspend($productID = '', $suspendReason = 'ModuleUnsuspend')
 		{
