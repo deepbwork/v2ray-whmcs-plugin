@@ -628,8 +628,8 @@ function v2ray_ClientArea($vars)
 	return $result;
 }
 
-define('__V2RAY__', dirname(dirname(dirname(dirname(__FILE__)))) . '/modules/addons/v2ray/');
-require_once __V2RAY__ . 'class.php';
+define('__V2RAYS__', dirname(dirname(dirname(dirname(__FILE__)))) . '/modules/addons/v2ray/');
+require_once __V2RAYS__ . 'class.php';
 $ls = new \V2ray\VExtended();
 $db = new \V2ray\VDatabase();
 switch ($ls->getPageName()) {
