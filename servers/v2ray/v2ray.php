@@ -190,6 +190,7 @@ function v2ray_CreateAccount($vars)
 						break;
 				}
 				$v2rayUUID = $ls->getRandUUID();
+				$serviceUUID = md5($v2rayUUID);
 				$data->runSQL(array(
 					'action' => array(
 						'chart' => array(
@@ -210,7 +211,7 @@ function v2ray_CreateAccount($vars)
 					'action' => array(
 						'mark' => array(
 							'sql' => 'UPDATE tblhosting SET domain = ? WHERE id = ?',
-							'pre' => array($v2rayUUID, $vars['serviceid'])
+							'pre' => array('服务ID:'.$serviceUUID, $vars['serviceid'])
 						)
 					)
 				));
