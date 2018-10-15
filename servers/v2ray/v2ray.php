@@ -190,7 +190,6 @@ function v2ray_CreateAccount($vars)
 						break;
 				}
 				$v2rayUUID = $ls->getRandUUID();
-				$serviceUUID = md5($v2rayUUID);
 				$data->runSQL(array(
 					'action' => array(
 						'chart' => array(
@@ -211,7 +210,7 @@ function v2ray_CreateAccount($vars)
 					'action' => array(
 						'mark' => array(
 							'sql' => 'UPDATE tblhosting SET domain = ? WHERE id = ?',
-							'pre' => array('服务ID:'.$serviceUUID, $vars['serviceid'])
+							'pre' => array($v2rayUUID, $vars['serviceid'])
 						)
 					)
 				));
@@ -568,6 +567,8 @@ function v2ray_ClientArea($vars)
                     "host" => "",
                     "tls" => (int)$value[5]?"tls":""
                 ];
+                // var_dump($value[0].'= vmess, '.$value[1].', '.$value[2].', '.$value[3].', "'.$templates['info']['v2ray_uuid'].'", over-tls='.((int)$value[5]?"true":"false").', certificate=1');exit;
+                $templates['extend'][$key]['quantumultUrl'] = "vmess://".base64_encode($value[0].'= vmess, '.$value[1].', '.$value[2].', chacha20-ietf-poly1305, "'.$templates['info']['v2ray_uuid'].'", over-tls='.((int)$value[5]?"true":"false").', certificate=1');
     		    $templates['extend'][$key]['v2rayOtherUrl'] = "vmess://".base64_encode(json_encode($config));
 			}
 			

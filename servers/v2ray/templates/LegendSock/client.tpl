@@ -143,20 +143,18 @@
                             <tbody>
                             <tr>
                                 <td style="width: 10%;">{$serviceid}</td>
-                                <td style="width: 45%;"><span id="userId" onclick="javascript:document.getElementById('userId').innerHTML='{$info['v2ray_uuid']}';">{$LS_LANG['product']['show']}</span></td>
+                                <td style="width: 40%;"><span id="userId" onclick="javascript:document.getElementById('userId').innerHTML='{$info['v2ray_uuid']}';">{$LS_LANG['product']['show']}</span></td>
                                 <td style="width: 5%;">{$info['v2ray_alter_id']}</td>
                                 <td style="width: 5%;">{$info['v2ray_level']}</td>
-                                <td style="width: 25%;">{$info['t']|date_format:'%Y-%m-%d, %H:%M'}</td>
+                                <td style="width: 20%;">{$info['t']|date_format:'%Y-%m-%d, %H:%M'}</td>
                                 {if $apiUrl neq ''}
-                                <td style="width: 10%">
-                                    <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                                      <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$apiUrl}?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}" data-client="iOS" title="订阅地址" name="v2raylink" data-clipboard-text="{$apiUrl}?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}">
-                                        <span class="glyphicon glyphicon-link" aria-hidden="true"></span> 点击复制
-                                      </button>
-                                    </div>
+                                <td style="width: 15%">
+                                  <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$apiUrl}?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}" data-client="shadowrocket/v2rayNG/v2rayN/Quantumult" title="订阅地址" name="v2raylink" data-clipboard-text="{$apiUrl}?token={$uuid}&s=v2ray.subscribe&pid={$serviceid}">
+                                    <span class="glyphicon glyphicon-link" aria-hidden="true"></span> 点击复制
+                                  </button>
                                 </td>
                                 {/if}
-                                <td style="width: 10%">
+                                <td style="width: 5%">
                                     <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
                                       <button type="button" class="btn btn-info btn-xs autoset" id="securityReset">
                                         <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 重置
@@ -227,12 +225,17 @@
                                         <td>{if $value[5] eq 1}<span class="c-badge c-badge--success">√</span>{else}<span class="c-badge c-badge--danger">×</span>{/if}</td>
                                         <td>
                                             <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                                                <button type="button" class="btn btn-info btn-xs autohides" data-qrname="V2ray" data-qrcode="{$extend[$key]['v2rayOtherUrl']}" data-client="移动端" title="{$LS_LANG['node']['v2ray']['title']}" name="qrcode">
+                                                <button type="button" class="btn btn-info btn-xs autohides" data-qrname="V2ray" data-qrcode="{$extend[$key]['v2rayOtherUrl']}" data-client="shadowrocket/v2rayNG/v2rayN" title="{$LS_LANG['node']['v2ray']['title']}" name="qrcode">
                                                     <span class="fa fa-qrcode" aria-hidden="true"></span>
                                                 </button>
                                             </div>
                                             <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
-                                                <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-link="{$extend[$key]['v2rayOtherUrl']}" data-client="iOS" title="{$LS_LANG['node']['v2ray']['titleUri']}" name="v2raylink" data-clipboard-text="{$extend[$key]['v2rayOtherUrl']}">
+                                                <button type="button" class="btn btn-info btn-xs autohides" data-qrname="V2ray" data-qrcode="{$extend[$key]['quantumultUrl']}" data-client="Quantumult" title="{$LS_LANG['node']['v2ray']['title']}" name="qrcode">
+                                                    Q</span>
+                                                </button>
+                                            </div>
+                                            <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
+                                                <button type="button" class="btn btn-info btn-xs autoset" data-qrname="V2ray" data-client="shadowrocket/v2rayNG/v2rayN" title="{$LS_LANG['node']['v2ray']['titleUri']}" name="v2raylink" data-clipboard-text="{$extend[$key]['v2rayOtherUrl']}">
                                                     <span class="glyphicon glyphicon-link" aria-hidden="true"></span> {$LS_LANG['node']['v2ray']['importUri']}
                                                 </button>
                                             </div>

@@ -59,16 +59,16 @@
                 closeBtn: 1,
                 shift: 2,
                 shadeClose: true,
-                content: document.getElementById('QRCode_HTML').innerHTML + '<p>请使用 ' + qrname + ' 客户端进行扫描</p>'
+                content: document.getElementById('QRCode_HTML').innerHTML + '<p>请使用 ' + $(this).attr('data-client') + ' 进行扫描</p>'
             });
         });
-
+        
         var clipboard = new ClipboardJS("[name='v2raylink']");
         clipboard.on('success', function(e) {
             console.info('Action:', e.action);
             console.info('Text:', e.text);
             console.info('Trigger:', e.trigger);
-            layer.msg('已经复制到剪切板');
+            layer.msg('已经复制到剪切板，请使用 ' + e.trigger.attributes.getNamedItem('data-client').value+' 进行添加');
             e.clearSelection();
         });
 
